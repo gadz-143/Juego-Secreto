@@ -2,6 +2,7 @@ let numeroSecreto;
 let intentos = 1;
 let numeroMaximo = 10;
 let listaNumeros = [];
+let maximoIntentos = 6;
 
 operacionesIniciales();
 
@@ -11,19 +12,24 @@ function asignarTextoElemento(lugar, texto){
 }
 function verificarIntento(){
     let numeroDeUsuario = parseInt(document.getElementById('valorUsuario').value);
-    if(numeroDeUsuario === numeroSecreto){
-        asignarTextoElemento('p', `Acertaste el número en ${intentos} ${(intentos ===1)?'intento':'intentos'}!`);
-        document.getElementById('reiniciar').removeAttribute('disabled');
+    if (maximoIntentos == intentos){
+        asignarTextoElemento('p', "Alcanzo el maximo numero de intentos");
+        document.getElementById('iniciar').setAttribute('disabled', true);
     }else{
-        if(numeroDeUsuario > numeroSecreto){
-            asignarTextoElemento('p',"El numero secreto es menor");
+        if(numeroDeUsuario === numeroSecreto){
+            asignarTextoElemento('p', `Acertaste el número en ${intentos} ${(intentos ===1)?'intento':'intentos'}!`);
+            document.getElementById('reiniciar').removeAttribute('disabled');
         }else{
-            asignarTextoElemento('p',"El numero secreto es mayor");
+            if(numeroDeUsuario > numeroSecreto){
+                asignarTextoElemento('p',"El numero secreto es menor");
+            }else{
+                asignarTextoElemento('p',"El numero secreto es mayor");
+            }
+            intentos++;
+            limpiarCaja();
         }
-        intentos++;
-        limpiarCaja();
+        return;
     }
-    return;
 }
 function limpiarCaja(){
    document.querySelector('#valorUsuario').value = '';
